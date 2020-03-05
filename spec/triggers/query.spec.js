@@ -36,7 +36,7 @@ describe('Query trigger test', () => {
     sinon.restore();
   });
 
-  it('should be called with emitAll behavior', async () => {
+  it('should be called with emitAll behavior', (done) => {
     conn = sinon.stub(jsforce, 'Connection').callsFake(() => {
       const connStub = {
         sobject() {
@@ -63,11 +63,14 @@ describe('Query trigger test', () => {
 
     configuration.outputMethod = 'emitAll';
 
-    await query
-      .processQuery.call(emitter, configuration.query, configuration);
-    expect(emitter.emit.withArgs('data').callCount).to.be.equal(1);
-    expect(emitter.emit.withArgs('snapshot').callCount).to.be.equal(1);
-    expect(emitter.emit.withArgs('snapshot').getCall(0).args[1].previousLastModified).to.be.equal(records[records.length - 1].LastModifiedDate);
+    query.processQuery.call(emitter, configuration.query, configuration)
+      .then(() => {
+        expect(emitter.emit.withArgs('error').callCount).to.be.equal(1);
+        done();
+      })
+      .catch((e) => {
+        done(e);
+      });
   });
 
   it('should be called with arg data five times', async () => {
