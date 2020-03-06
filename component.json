@@ -79,6 +79,32 @@
         "prompt": "Please select an output method"
       }
     },
+    "newQueryTrigger": {
+      "title": "New Query",
+      "main": "./lib/triggers/newQuery.js",
+      "type": "polling",
+      "description": "Will continuously run the same SOQL Query and emit results one-by-one",
+      "metadata": {
+        "out": {}
+      },
+      "fields": {
+        "query": {
+          "label": "SOQL Query",
+          "required": true,
+          "viewClass": "TextAreaView"
+        }
+      },
+      "outputMethod": {
+        "viewClass": "SelectView",
+        "label": "Output method",
+        "required": true,
+        "model": {
+          "emitAll": "Emit all",
+          "emitIndividually": "Emit individually"
+        },
+        "prompt": "Please select an output method"
+      }
+    },
     "entry": {
       "title": "Get New and Updated Objects Polling",
       "main": "./lib/entry.js",
@@ -286,7 +312,7 @@
           "required": true,
           "model": "objectTypes",
           "prompt": "Please select a Salesforce Object"
-        }, 
+        },
         "typeOfSearch": {
           "viewClass": "SelectView",
           "label": "Type Of Search",

@@ -47,9 +47,9 @@ describe('queryTrigger', () => {
   };
 
   it('execute queryTrigger', async () => {
-    configuration.query = 'SELECT ID, Name from Contact';
+    configuration.query = 'SELECT ID, Name from Contact limit 5';
     await queryTrigger.process.call(emitter, message, configuration);
     expect(emitter.emit.withArgs('data').callCount).to.be.equal(5);
-    expect(emitter.emit.withArgs('snapshot').callCount).to.be.equal(1);
+    expect(emitter.emit.withArgs('updateKeys').callCount).to.be.equal(1);
   });
 });
