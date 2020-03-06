@@ -73,40 +73,6 @@ describe('Query trigger test', () => {
       });
   });
 
-  it('should be called with arg data five times', async () => {
-    conn = sinon.stub(jsforce, 'Connection').callsFake(() => {
-      const connStub = {
-        sobject() {
-          return connStub;
-        },
-        on() {
-          return connStub;
-        },
-        select() {
-          return connStub;
-        },
-        where() {
-          return connStub;
-        },
-        sort() {
-          return connStub;
-        },
-        execute() {
-          return records;
-        },
-      };
-      return connStub;
-    });
-
-    configuration.outputMethod = 'emitIndividually';
-
-    await query
-      .processQuery.call(emitter, configuration.query, configuration);
-    expect(emitter.emit.withArgs('data').callCount).to.be.equal(records.length);
-    expect(emitter.emit.withArgs('snapshot').callCount).to.be.equal(1);
-    expect(emitter.emit.withArgs('snapshot').getCall(0).args[1].previousLastModified).to.be.equal(records[records.length - 1].LastModifiedDate);
-  });
-
   it('should not be called with arg data and snapshot', async () => {
     conn = sinon.stub(jsforce, 'Connection').callsFake(() => {
       const connStub = {
